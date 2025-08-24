@@ -1,9 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.11-slim-bullseye
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
@@ -14,7 +15,7 @@ ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
-# Set up Python environment
+# Install Python tools and common packages
 RUN pip install --no-cache-dir \
     black \
     pylint \
